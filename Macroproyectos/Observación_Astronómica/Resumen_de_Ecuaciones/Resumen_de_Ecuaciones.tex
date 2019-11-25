@@ -29,31 +29,49 @@
 \maketitle
 
 \begin{abstract}
-  Este documento contiene un resumen de los cálculos necesarios para estimar las posiciones de los primeros cinco planetas del sistema solar y la luna, vistos desde un punto dado sobre la Tierra, en una fecha y hora determinadas. También se incluyen instrucciones para escribir el código necesario, en los lenguajes Java y Python, para implementar estos cálculos en la aplicación StarGazer (para Android). La intención de este documento es servir de ayuda en al ejecución de la secuencia didáctica de este macroproyecto. 
+  Este documento contiene un resumen de los cálculos necesarios para estimar las posiciones de los primeros cinco planetas del sistema solar y la luna, vistos desde un punto dado sobre la Tierra, en una fecha y hora determinadas. También se incluyen instrucciones para escribir el código necesario, en los lenguajes Java y Python, para implementar estos cálculos en la aplicación StarGazer (para Android). Este documento va dirigido a los docentes y tiene como objetivo servir de apoyo, en la parte técnica, para facilitar la ejecución de la secuencia didáctica correspondiente. 
 \end{abstract}
 
-\section{Cálculo de la posición de los planetas}
+\section{Introducción}
 Para este macroproyecto se considera que el movimiento de los planetas es Kepleriano, es decir, se considera que la órbita de los planetas es eclíptica y que su movimiento está determinado sólamente por la interacción gravitatoria entre el planeta en cuestión y el sol. Existen factores que alteran el movimiento de un planeta, como la gravedad de otros planetas y la presión de radiación solar, sin embargo, estos efectos son mínimos y para este macroproyecto no se tomaron en cuenta. 
 
 Dados los supuestos anteriores, la posición de un planeta se puede estimar, a grandes rasgos, con los siguientes pasos:
 \begin{enumerate}
-\item Obtención de los parámetros orbitales (ya sea del sol, los planetas o la Luna).
+\item Obtención de los parámetros orbitales (ya sea de los planetas o la Luna).
 \item Cálculo de la posición del planeta con respecto al plano de su propia órbita.
-\item Transformación de esta posición a coordenadas ecuatoriales.
+\item Transformación de esta posición a coordenadas eclípticas y después a ecuatoriales.
 \item Cálculo del tiempo sideral local.
 \item Transformación de coordenadas ecuatoriales a coordenadas horizontales.
 \end{enumerate}
 
-Cada uno de los pasos anteriores corresponde a un día de trabajo en al secuencia didáctica. En las siguientes secciones se explican a detalle cada uno de estos cálculos.
+Cada uno de los pasos anteriores corresponde a un día de trabajo en al secuencia didáctica. El paso final de la secuencia consiste en la programación de los cálculos para generar la aplicación móvil StarGazer. En las siguientes secciones se explican a detalle cada uno de estos cálculos.
 
 \section{Parámetros orbitales}
 Para definir qué son los parámetros orbitales, primero es necesario definir algunos sistemas de referencia. El primero de ellos es el sistema de coordenadas eclípticas. En este sistema, el plano $XY$ coincide con el plano de la órbita de la Tierra y el eje positivo de las $X$ apunta hacia el equinoccio vernal, es decir, hacia el punto en el que se encuentra la Tierra, con respecto al sol, cuando ocurre el equinoccio de primavera en el hemisferio norte. En la figura \ref{fig:EclipticFrame} se muestra este sistema de coordenadas. En el sistema eclíptico, el origen puede fijarse en el Sol o en la Tierra, pero el plano $XY$ siempre coincide con el plano orbital de la Tierra y el eje $X$ apunta hacia el Primer Punto de Aries (como también se conoce la dirección en que se encuentra la Tierra en el equinoccio vernal). Lo más común, es utilizar el Sol como origen del sistema eclíptico. 
 \begin{figure}
   \centering
-  \includegraphics[width=0.5\textwidth]{Figures/EclipticCoordinates.pdf}
+  \includegraphics[width=0.4\textwidth]{Figures/EclipticCoordinates.pdf}
   \caption{Sistema de coordenadas eclípticas.}
   \label{fig:EclipticFrame}
 \end{figure}
 
-Ahora, las órbitas de todos los planetas son elipses con el Sol en uno de los focos, sin embargo, estas elipses no son coplanares con la órbita de la Tierra, no tienen la misma orientación en el espacio ni la misma ``forma'' y tamaño. Por ello se requieren tres parámetros (ángulos) para definir la orientación de la órbita en el espacio y dos más para definir su forma (qué tanto se parece a un círculo) y tamaño. Una vez definida la forma y orientación de la órbita, un sexto parámetro se utiliza para definir la posición del planeta en un momento determinado. Estos seis parámetros son conocidos como los parámetros orbitates. A continuación se describien más a detalle cada uno de ellos.  
+Ahora, las órbitas de todos los planetas son elipses con el Sol en uno de los focos, sin embargo, estas elipses no son coplanares con la órbita de la Tierra, no tienen la misma orientación en el espacio ni la misma ``forma'' y tamaño. Por ello se requieren tres parámetros (ángulos) para definir la orientación de la órbita en el espacio y dos más para definir su forma (qué tanto se parece a un círculo) y tamaño. Una vez definida la forma y orientación de la órbita, un sexto parámetro se utiliza para definir la posición del planeta en un momento determinado. Estos seis parámetros son conocidos como los parámetros orbitates. A continuación se describien más a detalle cada uno de ellos.
+
+\subsection{Excentricidad y semieje mayor}
+Como se mencionó anteriormente, estos dos parámetros sirven para definir la forma y tamaño de la órbita de un planeta. Es importante recordar dos conceptos: el perihelio y el afelio. El perihelio de un planeta ocurre cuando este se encuentra más cerca del Sol, a una distancia $d_p$, y el afelio, cuando se encuentra más lejos, a una distancia $d_a$. Estos dos puntos también se conocen como periápside y apoápside. La longitud del semieje mayor $a$ es la distancia del centro de la elipse a cualquiera de los ápsides y es también igual a la distancia media del planeta al sol, es decir:
+\[a = \frac{d_a + d_p}{2}\]
+La distancia $c$ corresponde a la distancia desde el centro de la elipse a cada uno de los focos, es decir, del centro de la órbita al Sol. En la figura \ref{fig:Ellipse} se muestran cada una de estas distancias. La excentricidad de la órbita se puede calcular como:
+\begin{equation}
+  e = \frac{c}{a}
+\end{equation}
+Para las elipses, este cociente siempre es mayor que cero y menor que uno. Entre más pequeña sea la excentricidad, la órbita se parece más a un círculo. Para caracterizar la forma y tamaño de la elipse, se podrían usar la excentricidad y cualquiera de las distancias indicadas en la figura \ref{fig:Ellipse}. Lo más común es usar $e$ y $a$ para este fin. La excentricidad $e$ es adimensional mientras que la distancia $a$ se suele medir en unidades astronómicas (AU por sus siglas en inglés). Una unidad astronómica se define como la distancia media de la Tierra al Sol, es decir, para la órbita de la Tierra, por definición, $a=1$.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{Figures/EccentricitySemimajorAxis.png}
+  \caption{Medidas importantes en la órbita de un planeta. Las distancias $a$, $b$, $c$, $d_p$ y $d_a$ se miden en unidades astronómicas.}
+  \label{fig:Ellipse}
+\end{figure}
+
+\subsection{Orientación de la órbita: ángulos $N$, $i$ y $\omega$}
+Para definir la orientación de un objeto en el espacio se requieren siempre de cuando menos tres parámetros. Para las órbitas planetarias, estos tres parámetros corresponden a tres ángulos: longitud del nodo ascendente $N$, inclinación $i$ y argumento del periápside $\omega$. La orientación de la órbita se expresa con respecto al sistema de coordenadas eclípticas. Para 
 \end{document}
