@@ -46,11 +46,11 @@ Dados los supuestos anteriores, la posición de un planeta se puede estimar, a g
 
 Cada uno de los pasos anteriores corresponde a un día de trabajo en al secuencia didáctica. El paso final de la secuencia consiste en la programación de los cálculos para generar la aplicación móvil StarGazer. En las siguientes secciones se explican a detalle cada uno de estos cálculos.
 
-\section{Parámetros orbitales}
+\section{Antecedentes: parámetros orbitales}
 Para definir qué son los parámetros orbitales, primero es necesario definir algunos sistemas de referencia. El primero de ellos es el sistema de coordenadas eclípticas. En este sistema, el plano $XY$ coincide con el plano de la órbita de la Tierra y el eje positivo de las $X$ apunta hacia el equinoccio vernal, es decir, hacia el punto en el que se encuentra la Tierra, con respecto al sol, cuando ocurre el equinoccio de primavera en el hemisferio norte. En la figura \ref{fig:EclipticFrame} se muestra este sistema de coordenadas. En el sistema eclíptico, el origen puede fijarse en el Sol o en la Tierra, pero el plano $XY$ siempre coincide con el plano orbital de la Tierra y el eje $X$ apunta hacia el Primer Punto de Aries (como también se conoce la dirección en que se encuentra la Tierra en el equinoccio vernal). Lo más común, es utilizar el Sol como origen del sistema eclíptico. 
 \begin{figure}
   \centering
-  \includegraphics[width=0.4\textwidth]{Figures/EclipticCoordinates.pdf}
+  \includegraphics[width=0.5\textwidth]{Figures/EclipticCoordinates.pdf}
   \caption{Sistema de coordenadas eclípticas.}
   \label{fig:EclipticFrame}
 \end{figure}
@@ -67,11 +67,68 @@ La distancia $c$ corresponde a la distancia desde el centro de la elipse a cada 
 Para las elipses, este cociente siempre es mayor que cero y menor que uno. Entre más pequeña sea la excentricidad, la órbita se parece más a un círculo. Para caracterizar la forma y tamaño de la elipse, se podrían usar la excentricidad y cualquiera de las distancias indicadas en la figura \ref{fig:Ellipse}. Lo más común es usar $e$ y $a$ para este fin. La excentricidad $e$ es adimensional mientras que la distancia $a$ se suele medir en unidades astronómicas (AU por sus siglas en inglés). Una unidad astronómica se define como la distancia media de la Tierra al Sol, es decir, para la órbita de la Tierra, por definición, $a=1$.
 \begin{figure}
   \centering
-  \includegraphics[width=0.5\textwidth]{Figures/EccentricitySemimajorAxis.png}
+  \includegraphics[width=0.6\textwidth]{Figures/EccentricitySemimajorAxis.pdf}
   \caption{Medidas importantes en la órbita de un planeta. Las distancias $a$, $b$, $c$, $d_p$ y $d_a$ se miden en unidades astronómicas.}
   \label{fig:Ellipse}
 \end{figure}
 
 \subsection{Orientación de la órbita: ángulos $N$, $i$ y $\omega$}
-Para definir la orientación de un objeto en el espacio se requieren siempre de cuando menos tres parámetros. Para las órbitas planetarias, estos tres parámetros corresponden a tres ángulos: longitud del nodo ascendente $N$, inclinación $i$ y argumento del periápside $\omega$. La orientación de la órbita se expresa con respecto al sistema de coordenadas eclípticas. Para 
+Para definir la orientación de un objeto en el espacio se requieren siempre de cuando menos tres parámetros. Para las órbitas planetarias, estos tres parámetros corresponden a tres ángulos: longitud del nodo ascendente $N$, inclinación $i$ y argumento del periápside $\omega$, los cuales sirven para expresar la orientación de la órbita de un planeta con respecto al sistema de coordenadas eclípticas. Para explicar estos ángulos, considere los dos sistemas coordenados mostrados en la figura \ref{fig:Niw}. Uno de ellos es el sistema eclíptico $O_E$ (con dirección primaria hacia el Primer Punto de Aries y coplanar con la órbita de la Tierra) y el otro es el sistema $O_P$, cuyo plano $X_P Y_P$ es paralelo a la órbita del planeta en cuestión y cuya dirección primaria (dirección del eje positivo de $X_P$) apunta hacia el perihelio de dicho planeta. En la figura \ref{fig:Niw} se muestran los dos sistemas de referencia y los tres ángulos $N$, $i$ y $\omega$.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{Figures/Niw.pdf}
+  \caption{Ángulos y sistemas de referencia para definir la orientación de la órbita de un planeta.}
+  \label{fig:Niw}
+\end{figure}
+
+Tanto el sistema de referencia $O_P$ (el de la órbita del planeta) como el $O_E$ (el de la órbita de la Tierra) tienen como centro el Sol, pero el sistema $O_P$ está rotado con respecto a $O_E$, es decir, $O_P$ se puede obtener rotando $O_E$ primero un ángulo $N$ sobre el eje $Z$, luego un ángulo $i$ sobre el eje $X$ y finalmente un ángulo $\omega$ nuevamente sobre el eje $Z$. En otras palabras, la orientación de la órbita de un planeta se puede obtener aplicando estas mismas rotaciones a la órbita de la Tierra. En la figura \ref{fig:Rotations} se muestran paso por paso estas rotaciones.
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{Figures/Rotations.pdf}
+  \caption{Rotaciones para obtener $O_P$ a partir de $O_E$.}
+  \label{fig:Rotations}
+\end{figure}
+
+\subsection{Anomalía media $M$}
+De acuerdo con la Segunda Ley de Kepler, la velocidad angular de un planeta no es constante, siendo esta mayor en el perihelio y menor en el afelio. Sin embargo, a cada planeta se le puede asociar una órbita circular imaginaria con el mismo periodo y con un radio igual al semieje mayor de la órbita real. En esta órbita imaginaria circular, el planeta tendría una velocidad angular constante y, por lo tanto, su posición en dicha órbita se podría caracterizar con un sólo parámetro. A este parámetro se le conoce como anomalía media $M$ y corresponde al ángulo del planeta medido desde su perihelio hacia la posición sobre la órbita circular imaginaria. En la figura \ref{fig:MeanAnomaly} se muestra la forma de medir este ángulo.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{Figures/MeanAnomaly.pdf}
+  \caption{Anomalía media $M$.}
+  \label{fig:MeanAnomaly}
+\end{figure}
+
+Resumiendo, los seis parámetros orbitales son:
+\begin{itemize}
+  \item Para la forma y tamaño de la órbita:
+  \begin{itemize}
+  \item \textbf{$a$}: semieje mayor, medido en en AU.
+  \item \textbf{$e$}: excentricidad, adimensional.
+  \end{itemize}
+  \item Para la orientación de la órbita con respecto a la eclíptica:
+  \begin{itemize}
+  \item \textbf{$N$}: longitud del nodo ascendente (rotación sobre $Z$).
+  \item \textbf{$i$}: inclinación de la órbita (rotación sobre $X$).
+  \item \textbf{$\omega$}: argumento del periápside (rotación sobre $Z$). 
+  \end{itemize}
+  \item Para la posición del planeta sobre su propia órbita:
+  \begin{itemize}
+  \item \textbf{$M$}: anomalía media (medida a partir del perihelio del planeta).
+  \end{itemize}
+\end{itemize}
+
+
+\section{Día 1: Determinar los parámetros orbitales}
+A excepción de la anomalia media, los parámetros orbitales se pueden considerar constantes para periodos cortos de tiempo (años e incluso décadas), sin embargo, para mejorar las estimaciones de posición, se tomarán en cuenta las pequeñas variaciones a lo largo del tiempo. Una buena aproximación para los parámetros orbitales es calcularlos en función del tiempo mediante una ecuación de primer grado, es decir, si se grafica cada parámetro con respecto al tiempo, se obtendría una recta. Para este trabajo los parámetros orbitales se calculan como sigue:
+
+\subsection{Timestamps}
+
+\section{Día 2: Posición del planeta sobre su propia órbita}
+
+\subsection{Solución de la Ecuación de Kepler}
+
+\subsection{El método de Newton-Raphson}
+
 \end{document}
