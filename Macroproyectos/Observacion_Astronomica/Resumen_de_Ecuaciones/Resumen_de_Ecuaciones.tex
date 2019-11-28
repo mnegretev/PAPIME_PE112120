@@ -164,11 +164,31 @@ A excepción de la anomalia media, los parámetros orbitales se pueden considera
   \label{tab:OrbitalParams}
 \end{table}
 
-En las ecuaciones de la tabla \ref{tab:OrbitalParams} el tiempo $d$ se mide en días contados a partir de las 00:00 hrs del 31 de diciembre de 1999 en el horario del Meridiano de Greenwich (GMT). Por ejemplo, si se desean calcular los parámetros orbitales para el 1 de enero de 2000 a las 6:00 pm en la hora de la Ciudad de México. 
+En las ecuaciones de la tabla \ref{tab:OrbitalParams} el tiempo $d$ se mide en días contados a partir de las 00:00 hrs del 31 de diciembre de 1999 en el horario del Timepo Universal Coordinado (UTC) (que coincide con la hora del Meridiano Greenwich). Por ejemplo, si se desean calcular los parámetros orbitales para el 10 de enero de 2000 a las 6:00 am en la hora de la Ciudad de México, se tendría que realizar lo siguiente: primero, las 6:00 am de la Ciudad de México, en horario de invierno, corresponde con las 12:00 hrs en UTC. Desde las 00:00 hrs del 31 de diciembre de 1999 hasta las 12:00 hrs del 10 de enero de 2000, han pasado 10 días con 12 horas, por lo tanto, los parámetros orbitales, para el 10-01-2000 a las 6:00 am hora de la Cd Mx, se deben calcular de acuerdo con la tabla \ref{tab:OrbitalParams} considerando $d=10.5$.
+
+En un ejemplo más complejo, si se desean calcular los parámetros para el 13 de sep de 2019 (día del programador) a las 8:00 am se debe realizar los siguiente: entre 1999 y 2019 hubo 5 años bisiestos, por lo que el número de días transcurridos hasta las 00:00 hrs del 31 de diciembre de 2018 fueron 6940. El 13 de sep de 2019 fue el día número 256 del año, por lo que, desde las 00:00 hrs del 31-12-1999 hasta las 00:00 hrs del 13-19-2019, transcurrieron 7196 días exactos. Las 8:00 am en la CdMx en horario de verano corresponden con las 13:00 hrs  en UTC. 13 horas son 0.5416 días, por lo que los parámetros orbitales se deberían calcular con $d=7196.5416$.
 
 \subsection{Timestamps}
+En el ejemplo anterior, resulta muy laborioso calcular el número de días transcurridos, debido a la irregularidad de la duración de los meses y años, sin embargo, para este macroproyecto, se tiene la ventaja de implementarse en un dispositivo de cómputo móvil. Las computadoras llevan un registro de tiempo utilizando lo que se conoce como \textit{timestamp}. Un \textit{timestamp} es un número entero que indica el número de segundos transcurridos desde las 00:00 hrs GMT del 1 de enero de 1970. A diferencia de los años y meses, los días sí tienen una duración constante, que es de 86400 segundos; por lo tanto, si se divide un timestamp entre 86400 se tendrá el número de días transcurridos, sin embargo, estos días serán contados a partir del 1 de enero de 1970. Pero esto se resuelve fácilmente, basta con restar al timestamp actual, el timestamp correspondiente al 31-12-1999 a las 00:00 hrs. Dividiendo esta diferencia entre 86400, se obtendrán los días transcurridos como se requiere en las ecuaciones de la tabla \ref{tab:OrbitalParams}:
+\begin{equation}
+  d = \frac{t_c - t_s}{86400}
+  \label{eq:ElapsedDays}
+\end{equation}
+donde
+\begin{eqnarray*}
+  t_c &:& \textrm{Timestamp de la fecha y hora de interés}\\
+  t_s &:& \textrm{Timestamp del 31 de diciembre de 1999 a las 00:00:00 hrs GMT}
+\end{eqnarray*}
+Obtener el número de segundos transcurridos a partir de una fecha parece algo aún más laborioso que obtener los días transcurridos, sin embargo, todos los dispositivos de cómputo llevan este conteo y es muy sencillo obtenerlo; por ejemplo, para dispositivos con Android, existe la función \texttt{System.currentTimeMillis()} que obtiene el \textit{timestamp} actual. Existen también herramientas en línea para la obtención de timestamps, por ejemplo \url{https://www.epochconverter.com/}
+
+En síntesis, los cálculos del día 1 de la secuencia didáctica se pueden resumir en la obtención de los parámetros orbitales de acuerdo con la tabla \ref{tab:OrbitalParams} y el cálculo de días transcurridos de acuerdo con la ecuación \ref{eq:ElapsedDays}.
 
 \section{Día 2: Posición del planeta sobre su propia órbita}
+Para calcular la posición del planeta con respecto a su propia órbita se considerará un sistema de referencia $O_P$ cuyo eje $X$ apunta hacia su perihelio, el eje $Z$ apunta hacia lo que sería el ``norte'' geográfico del planeta, y el eje $Y$, orientado de modo que el sistema sea dextrógiro. Las figuras \ref{fig:Niw} y \ref{fig:MeanAnomaly} muestran la orientación del sistema de referenica $O_P$.
+
+Una vez definido el sistema de referencia $O_P$, es necesario definir otros dos conceptos: anomalía real y anomalía excéntrica. Para definirlos, es necesario retomar el concepto de anomalía media, que es la posición del planeta sobre una órbita circular imaginaria de radio igual al semieje mayor y periodo igual a la órbita real. Considere el esquema mostrado en la figura 
+
+La anomalía real es el ángulo entre el eje $X_P$ y el planeta tomando como origen (como pivote) al Sol (o la Tierra en el caso de la Luna). La anomalía excéntrica es el ángulo entre el eje $X$ y el planeta tomando como pivote el centro de la órbita (centro de la elipse). 
 
 \subsection{Solución de la Ecuación de Kepler}
 
