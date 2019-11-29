@@ -47,7 +47,7 @@ Dados los supuestos anteriores, la posición de un planeta se puede estimar, a g
 Cada uno de los pasos anteriores corresponde a un día de trabajo en al secuencia didáctica. El paso final de la secuencia consiste en la programación de los cálculos para generar la aplicación móvil StarGazer. En las siguientes secciones se explican a detalle cada uno de estos cálculos.
 
 \section{Antecedentes: parámetros orbitales}
-Para definir qué son los parámetros orbitales, primero es necesario definir algunos sistemas de referencia. El primero de ellos es el sistema de coordenadas eclípticas. En este sistema, el plano $XY$ coincide con el plano de la órbita de la Tierra y el eje positivo de las $X$ apunta hacia el equinoccio vernal, es decir, hacia el punto en el que se encuentra la Tierra, con respecto al sol, cuando ocurre el equinoccio de primavera en el hemisferio norte. En la figura \ref{fig:EclipticFrame} se muestra este sistema de coordenadas. En el sistema eclíptico, el origen puede fijarse en el Sol o en la Tierra, pero el plano $XY$ siempre coincide con el plano orbital de la Tierra y el eje $X$ apunta hacia el Primer Punto de Aries (como también se conoce la dirección en que se encuentra la Tierra en el equinoccio vernal). Lo más común, es utilizar el Sol como origen del sistema eclíptico. 
+Para definir qué son los parámetros orbitales, primero es necesario definir algunos sistemas de referencia. El primero de ellos es el sistema de coordenadas eclípticas. En este sistema, el plano $XY$ coincide con el plano de la órbita de la Tierra y el eje positivo de las $X$ (dirección primaria) apunta hacia el equinoccio vernal, es decir, hacia el punto en el que se encuentra el Sol, visto desde la Tierra, cuando ocurre el equinoccio de primavera en el hemisferio norte. En la figura \ref{fig:EclipticFrame} se muestra este sistema de coordenadas. En el sistema eclíptico, el origen puede fijarse en el Sol o en la Tierra, pero el plano $XY$ siempre coincide con el plano orbital de la Tierra y el eje $X$ apunta hacia el Primer Punto de Aries (como también se conoce la dirección en que se encuentra el Sol, visto desde la Tierra, en el equinoccio vernal). Lo más común, es utilizar el Sol como origen del sistema eclíptico. 
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{Figures/EclipticCoordinates.pdf}
@@ -55,7 +55,7 @@ Para definir qué son los parámetros orbitales, primero es necesario definir al
   \label{fig:EclipticFrame}
 \end{figure}
 
-Ahora, las órbitas de todos los planetas son elipses con el Sol en uno de los focos, sin embargo, estas elipses no son coplanares con la órbita de la Tierra, no tienen la misma orientación en el espacio ni la misma ``forma'' y tamaño. Por ello se requieren tres parámetros (ángulos) para definir la orientación de la órbita en el espacio y dos más para definir su forma (qué tanto se parece a un círculo) y tamaño. Una vez definida la forma y orientación de la órbita, un sexto parámetro se utiliza para definir la posición del planeta en un momento determinado. Estos seis parámetros son conocidos como los parámetros orbitates. A continuación se describien más a detalle cada uno de ellos.
+Las órbitas de todos los planetas son elipses con el Sol en uno de los focos, sin embargo, estas elipses no son coplanares con la órbita de la Tierra, no tienen la misma orientación en el espacio ni la misma ``forma'' y tamaño. Por ello se requieren tres parámetros (ángulos) para definir la orientación de la órbita en el espacio y dos más para definir su forma y tamaño. Una vez definida la forma y orientación de la órbita, un sexto parámetro se utiliza para definir la posición del planeta en un momento determinado. Estos seis parámetros son conocidos como los parámetros orbitales. A continuación se describen más a detalle cada uno de ellos.
 
 \subsection{Excentricidad y semieje mayor}
 Como se mencionó anteriormente, estos dos parámetros sirven para definir la forma y tamaño de la órbita de un planeta. Es importante recordar dos conceptos: el perihelio y el afelio. El perihelio de un planeta ocurre cuando este se encuentra más cerca del Sol, a una distancia $d_p$, y el afelio, cuando se encuentra más lejos, a una distancia $d_a$. Estos dos puntos también se conocen como periápside y apoápside. La longitud del semieje mayor $a$ es la distancia del centro de la elipse a cualquiera de los ápsides y es también igual a la distancia media del planeta al sol, es decir:
@@ -63,8 +63,15 @@ Como se mencionó anteriormente, estos dos parámetros sirven para definir la fo
 La distancia $c$ corresponde a la distancia desde el centro de la elipse a cada uno de los focos, es decir, del centro de la órbita al Sol. En la figura \ref{fig:Ellipse} se muestran cada una de estas distancias. La excentricidad de la órbita se puede calcular como:
 \begin{equation}
   e = \frac{c}{a}
+  \label{eq:Eccentricity}
 \end{equation}
-Para las elipses, este cociente siempre es mayor que cero y menor que uno. Entre más pequeña sea la excentricidad, la órbita se parece más a un círculo. Para caracterizar la forma y tamaño de la elipse, se podrían usar la excentricidad y cualquiera de las distancias indicadas en la figura \ref{fig:Ellipse}. Lo más común es usar $e$ y $a$ para este fin. La excentricidad $e$ es adimensional mientras que la distancia $a$ se suele medir en unidades astronómicas (AU por sus siglas en inglés) para los planetas, y en radios de la Tierra (ER por sus siglas en inglés) para la Luna. Una unidad astronómica se define como la distancia media de la Tierra al Sol, es decir, para la órbita de la Tierra, por definición, $a=1$.
+Para las elipses, este cociente siempre es mayor que cero y menor que uno. Entre más pequeña sea la excentricidad, la órbita se parece más a un círculo. Otra relación importante es la que existe entre el semieje mayor $a$, el semieje menor $b$ y la excentricidad $e$, dada por:
+\begin{equation}
+  b = a\sqrt{1 - e^2}
+  \label{eq:Semiaxis}
+\end{equation}
+
+Para caracterizar la forma y tamaño de la elipse, se podrían usar la excentricidad y cualquiera de las distancias indicadas en la figura \ref{fig:Ellipse}. Lo más común es usar $e$ y $a$ para este fin. La excentricidad $e$ es adimensional mientras que la distancia $a$ se suele medir en unidades astronómicas (AU por sus siglas en inglés) para los planetas, y en radios de la Tierra (ER por sus siglas en inglés) para la Luna. Una unidad astronómica se define como la distancia media de la Tierra al Sol, es decir, para la órbita de la Tierra, por definición, $a=1$.
 \begin{figure}
   \centering
   \includegraphics[width=0.6\textwidth]{Figures/EccentricitySemimajorAxis.pdf}
@@ -121,7 +128,7 @@ Resumiendo, los seis parámetros orbitales son:
 
 
 \section{Día 1: Determinar los parámetros orbitales}
-A excepción de la anomalia media, los parámetros orbitales se pueden considerar constantes para periodos cortos de tiempo (años e incluso décadas), sin embargo, para mejorar las estimaciones de posición, se tomarán en cuenta las pequeñas variaciones a lo largo del tiempo. Una buena aproximación para los parámetros orbitales es calcularlos en función del tiempo mediante una ecuación de primer grado, es decir, si se grafica cada parámetro con respecto al tiempo, se obtendría una recta. Para este trabajo los parámetros orbitales se calculan como se indica en la tabla \ref{tab:OrbitalParams}. Es importante recordar que el semieje mayor se mide en unidades astronómicas para los planetas y en radios de la Tierra para la Luna. 
+A excepción de la anomalia media, los parámetros orbitales se pueden considerar constantes para periodos cortos de tiempo (años e incluso décadas), sin embargo, para mejorar las estimaciones de posición, se tomarán en cuenta las pequeñas variaciones a lo largo del tiempo. Una buena aproximación para los parámetros orbitales es calcularlos en función del tiempo mediante una ecuación de primer grado, es decir, si se grafica cada parámetro con respecto al tiempo, se obtendría una recta. Para este trabajo los parámetros orbitales se calculan como se indica en la tabla \ref{tab:OrbitalParams}. Es importante recordar que el semieje mayor se mide en unidades astronómicas para los planetas y en radios de la Tierra para la Luna. Además, para todos los planetas se considera que el sistema eclíptico tiene origen en el Sol, mientras que para la Luna, se considera el origen en la Tierra. 
 \begin{table}
   \centering
   \begin{tabular}{cll}
@@ -135,12 +142,12 @@ A excepción de la anomalia media, los parámetros orbitales se pueden considera
     $\omega$ & $318.0634 + 0.1643573223d $  & $29.1241 + 1.01444E-5d   $ \\
     $M     $ & $115.3654 + 13.0649929509d$  & $168.6562 + 4.0923344368d$ \\
     \hline      
-              & Venus & Sol \\
+              & Venus & Tierra \\
     $a     $ & $0.723330               $  & $1.000000                $ \\
     $e     $ & $0.006773 - 1.302E-9d   $  & $0.016709 - 1.151E-9d    $ \\
     $N     $ & $76.6799 + 2.46590E-5d  $  & $0.0                     $ \\
     $i     $ & $3.3946 + 2.75E-8d      $  & $0.0                     $ \\
-    $\omega$ & $54.8910 + 1.38374E-5d  $  & $282.9404 + 4.70935E-5d  $ \\
+    $\omega$ & $54.8910 + 1.38374E-5d  $  & $102.9404 + 4.70935E-5d  $ \\
     $M     $ & $48.0052 + 1.6021302244d$  & $356.0470 + 0.9856002585d$ \\
     \hline
               & Marte & Júpiter \\
@@ -160,16 +167,16 @@ A excepción de la anomalia media, los parámetros orbitales se pueden considera
     $M     $ & $316.9670 + 0.0334442282d$  & $ $ \\
     \hline
   \end{tabular}
-  \caption{Ecuaciones para el cálculo de los parámetros orbitales. }
+  \caption{Ecuaciones para el cálculo de los parámetros orbitales. Los ángulos están dados en grados.}
   \label{tab:OrbitalParams}
 \end{table}
 
-En las ecuaciones de la tabla \ref{tab:OrbitalParams} el tiempo $d$ se mide en días contados a partir de las 00:00 hrs del 31 de diciembre de 1999 en el horario del Timepo Universal Coordinado (UTC) (que coincide con la hora del Meridiano Greenwich). Por ejemplo, si se desean calcular los parámetros orbitales para el 10 de enero de 2000 a las 6:00 am en la hora de la Ciudad de México, se tendría que realizar lo siguiente: primero, las 6:00 am de la Ciudad de México, en horario de invierno, corresponde con las 12:00 hrs en UTC. Desde las 00:00 hrs del 31 de diciembre de 1999 hasta las 12:00 hrs del 10 de enero de 2000, han pasado 10 días con 12 horas, por lo tanto, los parámetros orbitales, para el 10-01-2000 a las 6:00 am hora de la Cd Mx, se deben calcular de acuerdo con la tabla \ref{tab:OrbitalParams} considerando $d=10.5$.
+En las ecuaciones de la tabla \ref{tab:OrbitalParams} el tiempo $d$ se mide en días contados a partir de las 00:00:00 hrs del 31 de diciembre de 1999 en el horario del Timepo Universal Coordinado (UTC) (que coincide con la hora del Meridiano Greenwich). Por ejemplo, si se desean calcular los parámetros orbitales para el 10 de enero de 2000 a las 6:00 am en la hora de la Ciudad de México, se tendría que realizar lo siguiente: primero, las 6:00 am de la Ciudad de México, en horario de invierno, corresponde con las 12:00 hrs en UTC. Desde las 00:00 hrs del 31 de diciembre de 1999 hasta las 12:00 hrs del 10 de enero de 2000, han pasado 10 días con 12 horas, por lo tanto, los parámetros orbitales, para el 10-01-2000 a las 6:00 am hora de la Cd Mx, se deben calcular considerando $d=10.5$.
 
-En un ejemplo más complejo, si se desean calcular los parámetros para el 13 de sep de 2019 (día del programador) a las 8:00 am se debe realizar los siguiente: entre 1999 y 2019 hubo 5 años bisiestos, por lo que el número de días transcurridos hasta las 00:00 hrs del 31 de diciembre de 2018 fueron 6940. El 13 de sep de 2019 fue el día número 256 del año, por lo que, desde las 00:00 hrs del 31-12-1999 hasta las 00:00 hrs del 13-19-2019, transcurrieron 7196 días exactos. Las 8:00 am en la CdMx en horario de verano corresponden con las 13:00 hrs  en UTC. 13 horas son 0.5416 días, por lo que los parámetros orbitales se deberían calcular con $d=7196.5416$.
+En un ejemplo más complejo, si se desean calcular los parámetros para el 13 de sep de 2019 (día del programador) a las 8:00 am se debe realizar los siguiente: entre 1999 y 2019 hubo 5 años bisiestos, por lo que el número de días transcurridos hasta las 00:00 hrs del 31 de diciembre de 2018 fueron 6940. El 13 de sep de 2019 fue el día número 256 del año, por lo que, desde las 00:00 hrs del 31-12-1999 hasta las 00:00 hrs del 13-19-2019, transcurrieron 7196 días exactos. Las 8:00 am en la CdMx en horario de verano corresponden con las 13:00 hrs  en UTC. 13 horas son 0.5416 días, por lo que los parámetros orbitales se deberían calcular con $d=7196.5416$. Las ecuaciones de la tabla \ref{tab:OrbitalParams} son válidas para fechas anteriores al 01-12-1999, para las cuales el tiempo $d$ sería negativo. 
 
 \subsection{Timestamps}
-En el ejemplo anterior, resulta muy laborioso calcular el número de días transcurridos, debido a la irregularidad de la duración de los meses y años, sin embargo, para este macroproyecto, se tiene la ventaja de implementarse en un dispositivo de cómputo móvil. Las computadoras llevan un registro de tiempo utilizando lo que se conoce como \textit{timestamp}. Un \textit{timestamp} es un número entero que indica el número de segundos transcurridos desde las 00:00 hrs GMT del 1 de enero de 1970. A diferencia de los años y meses, los días sí tienen una duración constante, que es de 86400 segundos; por lo tanto, si se divide un timestamp entre 86400 se tendrá el número de días transcurridos, sin embargo, estos días serán contados a partir del 1 de enero de 1970. Pero esto se resuelve fácilmente, basta con restar al timestamp actual, el timestamp correspondiente al 31-12-1999 a las 00:00 hrs. Dividiendo esta diferencia entre 86400, se obtendrán los días transcurridos como se requiere en las ecuaciones de la tabla \ref{tab:OrbitalParams}:
+En el ejemplo anterior, resulta muy laborioso calcular el número de días transcurridos, debido a la irregularidad de la duración de los meses y años, sin embargo, para este macroproyecto, se tiene la ventaja de implementarse en un dispositivo de cómputo móvil. Las computadoras llevan un registro de tiempo utilizando lo que se conoce como \textit{timestamp}. Un \textit{timestamp} es un número entero que indica el número de segundos transcurridos desde las 00:00:00 hrs GMT del 1 de enero de 1970. A diferencia de los años y meses, los días sí tienen una duración constante, que es de 86400 segundos; por lo tanto, si se divide un timestamp entre 86400 se tendrá el número de días transcurridos desde el 1 de enero de 1970. Si a un timestamp se le resta el timestamp correspondiente al 31-12-1999 a las 00:00 hrs, y esta diferencia se divide entre 86400, se obtendrán los días transcurridos como se requiere en las ecuaciones de la tabla \ref{tab:OrbitalParams}:
 \begin{equation}
   d = \frac{t_c - t_s}{86400}
   \label{eq:ElapsedDays}
@@ -186,12 +193,78 @@ En síntesis, los cálculos del día 1 de la secuencia didáctica se pueden resu
 \section{Día 2: Posición del planeta sobre su propia órbita}
 Para calcular la posición del planeta con respecto a su propia órbita se considerará un sistema de referencia $O_P$ cuyo eje $X$ apunta hacia su perihelio, el eje $Z$ apunta hacia lo que sería el ``norte'' geográfico del planeta, y el eje $Y$, orientado de modo que el sistema sea dextrógiro. Las figuras \ref{fig:Niw} y \ref{fig:MeanAnomaly} muestran la orientación del sistema de referenica $O_P$.
 
-Una vez definido el sistema de referencia $O_P$, es necesario definir otros dos conceptos: anomalía real y anomalía excéntrica. Para definirlos, es necesario retomar el concepto de anomalía media, que es la posición del planeta sobre una órbita circular imaginaria de radio igual al semieje mayor y periodo igual a la órbita real. Considere el esquema mostrado en la figura 
+Una vez definido el sistema de referencia $O_P$, es necesario definir otros dos conceptos: anomalía verdadera y anomalía excéntrica. Para definirlos, es necesario retomar el concepto de anomalía media, que es la posición del planeta sobre una órbita circular imaginaria de radio igual al semieje mayor y periodo igual a la órbita real.
 
-La anomalía real es el ángulo entre el eje $X_P$ y el planeta tomando como origen (como pivote) al Sol (o la Tierra en el caso de la Luna). La anomalía excéntrica es el ángulo entre el eje $X$ y el planeta tomando como pivote el centro de la órbita (centro de la elipse). 
+Considere el esquema mostrado en la figura \ref{fig:Anomalies}. $P_M$ es la posición del planeta sobre una órbita circular imaginaria y que se determina mediante la anomalía media, que es uno de los seis parámetros orbitales. La posición $P'$ es también una posición sobre una órbita circular imaginaria. El ángulo entre el eje $X$ y el vector de posición $P'$ se conoce como anomalía excéntrica $E$. La relación entre la anomalía media $M$ y la anomalía excéntrica $E$ está dada por la Ecuación de Kepler:
+\begin{equation}
+  M = E - e\sin E
+  \label{eq:Kepler}
+\end{equation}
+donde $e$ es la excentricidad de la órbita. En la siguiente subsección se aborda la solución de esta ecuación. Finalmente, la anomalía verdadera $V$ es el ángulo entre el eje $X$ y la posición real del planeta, tomando como origen el Sol y no el centro de la órbita (el Sol está en uno de los focos). La relación entre las anomalías excéntrica y verdadera está dada por las propiedades geométricas de la elipse. 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.75\textwidth]{Figures/Anomalies.pdf}
+  \caption{Anomalías media, excéntrica y verdadera.}
+  \label{fig:Anomalies}
+\end{figure}
 
 \subsection{Solución de la Ecuación de Kepler}
 
-\subsection{El método de Newton-Raphson}
+De acuerdo con la ecuación (\ref{eq:Kepler}), la obtención de la anomalía media a partir de la excéntrica es trivial, sin embargo, lo que se desea es lo contrario, obtener la anomalía excéntrica a partir de la media (que se obtiene de acuerdo con la tabla \ref{tab:OrbitalParams} y la ecuación (\ref{eq:ElapsedDays})). Para esto, sería necesario resolver (\ref{eq:Kepler}) para $E$, sin embargo, no existe una forma cerrada para la solución, es decir, es necesario obtener $E$ por un método numérico.
+
+El método de Newton-Raphson sirve para encontrar raíces, es decir, para resolver ecuaciones de la forma:
+\begin{equation}
+  f(x) = 0
+  \label{eq:NewtonRaphsonForm}
+\end{equation}
+El método se puede entender mejor si se considera la interpretación geométrica de la derivada. Considere la figura \ref{fig:NewtonRaphson}. Se tiene una curva dada por la función $f(x)$ y se desea encontrar el valor de $x$ en el que la curva cruza por cero, es decir, el valor $x_r$ que hace que se cumpla la ecuación $f(x) = 0$. Suponga que se tiene una estimación inicial $x_0$. Si se evalúa la derivada $f'(x)$ en $x_0$ se tiene la pendiente $m$ de la recta tangente a la curva $f(x)$ en $x_0$, es decir $m=f'(x_0)$. En la figura se puede observar que la pendiente $m$ también se puede calcular como
+\[m = \frac{f(x_0)}{x_0 - x_1}\]
+por lo tanto
+\[f'(x_0) = \frac{f(x_0)}{x_0 - x_1}\]
+de donde se obtiene que:
+\begin{equation}
+  x_1 = x_0 - \frac{f(x_0)}{f'(x_0)}
+  \label{eq:NewtonRaphson}
+\end{equation}
+donde $x_1$ es una mejor aproximación a la solución de la ecuación (\ref{eq:NewtonRaphsonForm}). Si ahora $x_1$ se toma como una nueva $x_0$ y se vuelve a calcular $x_1$ de acuerdo con (\ref{eq:NewtonRaphson}) se obtendrá una mejor aproximación a la solución de (\ref{eq:NewtonRaphsonForm}). Si este proceso se repite un número suficiente de veces, el valor de $x_1$ puede considerarse como solución a la ecuación (\ref{eq:NewtonRaphsonForm}). A este proceso se le conoce como el método de Newton-Raphson. 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{Figures/GeometricDerivate.pdf}
+  \caption{Método de Newton-Raphson.}
+  \label{fig:NewtonRaphson}
+\end{figure}
+
+Para resolver la ecuación de Kepler por Newton-Raphson, primero se debe expresar (\ref{eq:Kepler}) en la forma (\ref{eq:NewtonRaphsonForm}):
+\[
+  f(E) = E - e\sin E - M = 0
+\]
+Derivando $f(E)$ con respecto a $E$ se obtiene:
+\[
+  f'(E) = 1 - e\cos E
+\]
+por lo que, dada una aproximación inicial $E_0$ para la solución de la Ecuación de Kepler, la siguiente aproximación $E_1$ se obtiene como:
+\begin{equation}
+  E_1 = E_0 - \frac{E_0 - e\sin E_0 - M}{1 - e\cos E_0}
+  \label{eq:KeplerNumeric}
+\end{equation}
+Se mencionó que si el proceso se repite un número suficiente de veces, se llegará a la solución correcta. Para determinar que (\ref{eq:KeplerNumeric}) ya se ha ejecutado un número suficiente de veces, se puede calcular la diferencia del valor de $E_1$ entre una iteración y otra. Cuando esta diferencia sea menor que una tolerancia, se puede considerar que ya se ha encontrado el valor de $E$. Puesto que $E$ es un ángulo, es decir su valor está en el intervalo  $[0, 2\pi]$, una tolerancia adecuada puede ser algún valor en el orden de $10^{-6}$ o menor.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{Figures/AnomaliesEV.pdf}
+  \caption{Relación entre las anomalías excéntrica $E$ y verdadera $V$.}
+  \label{fig:AnomaliesEV}
+\end{figure}
+Una vez calculada la anomalía excéntrica $E$, se puede calcular la anomalía verdadera $V$ y la posición del planeta con respecto a su órbita. Considere el esquema de la figura \ref{fig:AnomaliesEV}, que muestra la relación entre las anomalías excéntrica y verdadera. De acuerdo con el esquema, la posición del planeta $(p_x, p_y)$ con respecto al Sol, se puede calcular como:
+\begin{eqnarray*}
+  p_x &=& p_x' - c = a\cos E - c\\
+  p_y &=& b\sin E 
+\end{eqnarray*}
+donde $c$ es la distancia del centro de la órbita al foco, $a$ es la longitud del semieje mayor (uno de los seis parámetros orbitales) y $b$ es el semieje menor. Nótese que en la figura, el valor de $p_x$ está en el lado negativo del eje $X$. De la ecuación (\ref{eq:Eccentricity}) se tiene que $c = ea$ y de (\ref{eq:Semiaxis}) se tiene que $b = a(1 - e^2)^{1/2}$. Por lo tanto, la posición del planeta con respecto al sistema de coordenadas $O_P$ (con centro en el sol y dirección primaria hacia el perihelio del planeta) se puede calcular como:
+\begin{eqnarray}
+  p_x &=& a\cos E - ae= a(\cos E - e)\label{eq:PlanetX}\\
+  p_y &=& a\sqrt{1 - e^2}\sin E \label{eq:PlanetY}\\
+  p_z &=& 0 \label{eq:PlanetZ}
+\end{eqnarray}
 
 \end{document}

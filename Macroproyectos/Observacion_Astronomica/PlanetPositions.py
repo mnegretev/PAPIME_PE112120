@@ -12,15 +12,6 @@ planet_params['mars']    = {}
 planet_params['jupiter'] = {}
 planet_params['saturn']  = {}
 
-planet_params['sun'] = {
-    'N' : [0.0     , + 0.0         ],
-    'i' : [0.0     , + 0.0         ],
-    'w' : [282.9404, 4.70935E-5    ],
-    'a' : 1.000000                  ,
-    'e' : [0.016709, - 1.151E-9    ],
-    'M' : [356.0470, + 0.9856002585] 
-    }
-
 planet_params['moon'] = {
     'N' : [125.1228, - 0.0529538083 ], 
     'i' : [5.1454  , + 0.0          ],
@@ -46,6 +37,15 @@ planet_params['venus'] = {
     'a' : 0.7233300                  ,
     'e' : [0.006773, - 1.302E-9     ],
     'M' : [48.0052 , + 1.6021302244 ] 
+    }
+
+planet_params['earth'] = {
+    'N' : [0.0     , + 0.0         ],
+    'i' : [0.0     , + 0.0         ],
+    'w' : [102.9404, 4.70935E-5    ],
+    'a' : 1.000000                  ,
+    'e' : [0.016709, - 1.151E-9    ],
+    'M' : [356.0470, + 0.9856002585] 
     }
 
 planet_params['mars'] = {
@@ -148,7 +148,7 @@ def calculate_ecliptic_xyz(r, N, w, v, i):
     return [x,y,z]
 
 def calculate_equatorial_coords(xeclip, yeclip, zeclip):
-    ECL = 23.4393*math.pi/180
+    ECL = 23.4367*math.pi/180
     [xeq, yeq, zeq] = rotate_on_x(xeclip, yeclip, zeclip, ECL)
     RA  = math.atan2(yeq,xeq)
     Dec = math.atan2(zeq, math.sqrt(xeq*xeq + yeq*yeq))
@@ -162,7 +162,7 @@ def calculate_equatorial_coords(xeclip, yeclip, zeclip):
 #####
 def get_sideral_local_time(M_sun, w_sun, lon, timestamp):
     secs = timestamp % 86400
-    return  M_sun + w_sun + math.pi + lon + secs*2*math.pi/86400
+    return  M_sun + w_sun + lon + secs*2*math.pi/86400
 
 def rad_to_HMS(a):
     H  = int(a*12/math.pi)
@@ -199,11 +199,11 @@ def rad_to_DMS(a):
 
 def get_sun_position(lon, lat, timestamp):
     d = timestamp_to_ellapsed_days(timestamp)
-    [N,i,w,a,e,M] = get_orbital_params('sun', d)
+    [N,i,w,a,e,M] = get_orbital_params('earth', d)
     E = calculate_eccentric_anomaly(M,e)
     [v,r] = calculate_true_anomaly(E, e, a)
     [xeclip, yeclip, zeclip] = calculate_ecliptic_xyz(r, N, w, v, i)
-    [RA, Dec] = calculate_equatorial_coords(xeclip, yeclip, zeclip)
+    [RA, Dec] = calculate_equatorial_coords(-xeclip, -yeclip, -zeclip)
     LST = get_sideral_local_time(M, w, lon, timestamp)
     [Az,delta] = get_azimuth_elevation(RA, Dec, LST, lat)
     return [RA, Dec, Az, delta]
@@ -211,33 +211,33 @@ def get_sun_position(lon, lat, timestamp):
 
 def get_moon_position(lon, lat, timestamp):
     d = timestamp_to_ellapsed_days(timestamp)
-    [N,i,w_sun,a,e,M_sun] = get_orbital_params('sun', d)
+    [N,i,w_earth,a,e,M_earth] = get_orbital_params('earth', d)
     [N,i,w,a,e,M] = get_orbital_params('moon', d)
     E = calculate_eccentric_anomaly(M,e)
     [v,r] = calculate_true_anomaly(E, e, a)
     [xeclip, yeclip, zeclip] = calculate_ecliptic_xyz(r, N, w, v, i)
     [RA, Dec] = calculate_equatorial_coords(xeclip, yeclip, zeclip)
-    LST = get_sideral_local_time(M_sun, w_sun, lon, timestamp)
+    LST = get_sideral_local_time(M_earth, w_earth, lon, timestamp)
     [Az,delta] = get_azimuth_elevation(RA, Dec, LST, lat)
     return [RA, Dec, Az, delta]
 
 def get_planet_position(planet, lon, lat, timestamp):
     d = timestamp_to_ellapsed_days(timestamp)
-    [N,i,w_sun,a,e,M_sun] = get_orbital_params('sun', d)
-    E = calculate_eccentric_anomaly(M_sun,e)
+    [N,i,w_earth,a,e,M_earth] = get_orbital_params('earth', d)
+    E = calculate_eccentric_anomaly(M_earth,e)
     [v,r] = calculate_true_anomaly(E, e, a)
-    [xe_sun, ye_sun, ze_sun] = calculate_ecliptic_xyz(r, N, w_sun, v, i)
+    [x_earth, y_earth, z_earth] = calculate_ecliptic_xyz(r, N, w_earth, v, i)
 
     [N,i,w,a,e,M] = get_orbital_params(planet, d)
     E = calculate_eccentric_anomaly(M,e)
     [v,r] = calculate_true_anomaly(E, e, a)
-    [xeclip, yeclip, zeclip] = calculate_ecliptic_xyz(r, N, w, v, i)
+    [x_planet, y_planet, z_planet] = calculate_ecliptic_xyz(r, N, w, v, i)
 
-    xeclip += xe_sun
-    yeclip += ye_sun
-    zeclip += ze_sun
-    [RA, Dec] = calculate_equatorial_coords(xeclip, yeclip, zeclip)
-    LST = get_sideral_local_time(M_sun, w_sun, lon, timestamp)
+    x_planet -= x_earth
+    y_planet -= y_earth
+    z_planet -= z_earth
+    [RA, Dec] = calculate_equatorial_coords(x_planet, y_planet, z_planet)
+    LST = get_sideral_local_time(M_earth, w_earth, lon, timestamp)
     [Az,delta] = get_azimuth_elevation(RA, Dec, LST, lat)
     return [RA, Dec, Az, delta]
 ##### FIN DE DIA 5
