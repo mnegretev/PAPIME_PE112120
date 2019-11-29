@@ -80,6 +80,7 @@ Para caracterizar la forma y tamaño de la elipse, se podrían usar la excentric
 \end{figure}
 
 \subsection{Orientación de la órbita: ángulos $N$, $i$ y $\omega$}
+\label{sec:NiwAngles}
 Para definir la orientación de un objeto en el espacio se requieren siempre de cuando menos tres parámetros. Para las órbitas planetarias, estos tres parámetros corresponden a tres ángulos: longitud del nodo ascendente $N$, inclinación $i$ y argumento del periápside $\omega$, los cuales sirven para expresar la orientación de la órbita de un planeta con respecto al sistema de coordenadas eclípticas. Para explicar estos ángulos, considere los dos sistemas coordenados mostrados en la figura \ref{fig:Niw}. Uno de ellos es el sistema eclíptico $O_E$ (con dirección primaria hacia el Primer Punto de Aries y coplanar con la órbita de la Tierra) y el otro es el sistema $O_P$, cuyo plano $X_P Y_P$ es paralelo a la órbita del planeta en cuestión y cuya dirección primaria (dirección del eje positivo de $X_P$) apunta hacia el perihelio de dicho planeta. En la figura \ref{fig:Niw} se muestran los dos sistemas de referencia y los tres ángulos $N$, $i$ y $\omega$.
 
 \begin{figure}
@@ -266,5 +267,54 @@ donde $c$ es la distancia del centro de la órbita al foco, $a$ es la longitud d
   p_y &=& a\sqrt{1 - e^2}\sin E \label{eq:PlanetY}\\
   p_z &=& 0 \label{eq:PlanetZ}
 \end{eqnarray}
+La coordenada en $Z_P$ es cero, pues el plano $X_PY_P$ coincide con el plano de la órbita del planeta. En síntesis, los cálculos del día 2 de la secuencia didáctica son: la obtención de la anomalía excéntrica de acuerdo con (\ref{eq:KeplerNumeric}) y el cálculo de la posición del planeta con respecto al sistema de referencia $O_P$ de acuerdo con (\ref{eq:PlanetX})-(\ref{eq:PlanetZ}).
+
+\section{Día 3: Transformación a coordenadas eclípticas y ecuatoriales}
+Como se explicó en la sección \ref{sec:NiwAngles}, el sistema de coordenadas $O_P$ se puede obtener realizando tres rotaciones al sistema $O_E$. Las figuras \ref{fig:Niw} y \ref{fig:Rotations} muestran la relación entre estos dos sistemas de coordenadas. Para transformar las coordenadas de un punto de un sistema de referencia a otro, basta con multiplicar el vector de posición por la matriz de rotación que relaciona ambos sistemas de referencia. Cuando se tienen dos rotaciones consecutivas, la matriz de la rotación resultante es la multplicación de las matrices de cada rotación. Así, para transformar la posición calculada con (\ref{eq:PlanetX})-(\ref{eq:PlanetZ}) al sistema eclíptico basta con realizar la siguiente multiplicación:
+
+\begin{equation}
+  \footnotesize
+  \left[ \begin{tabular}{c} $x_E$\\$y_E$\\$z_E$\end{tabular}\right] =
+  \left[ \begin{tabular}{ccc}
+           $\cos N$ & $-\sin N$ & 0 \\
+           $\sin N$ & $ \cos N$ & 0 \\
+           $0$      & $0$       & 1
+         \end{tabular}\right]
+  \left[ \begin{tabular}{ccc}
+           $1$      & $0$       & $0$ \\
+           $0$      & $\cos i$ & $-\sin i$ \\
+           $0$      & $\sin i$ & $ \cos i$
+         \end{tabular}\right]
+  \left[ \begin{tabular}{ccc}
+           $\cos \omega$ & $-\sin \omega$ & 0 \\
+           $\sin \omega$ & $ \cos \omega$ & 0 \\
+           $0$      & $0$       & 1
+         \end{tabular}\right]
+  \left[ \begin{tabular}{c} $p_x$\\$p_y$\\$p_z$\end{tabular}\right]
+\end{equation}
+donde $N$, $i$ y $\omega$ son  parámetros orbitales (ver sección \ref{sec:NiwAngles}), $(p_X, p_y, p_z)$ es la posición del planeta calculada de acuerdo con (\ref{eq:PlanetX})-(\ref{eq:PlanetZ}) y $(x_E, y_E, z_E)$ es la posición del planeta expresada en coordenadas eclípticas.
+
+\subsection{El sistema de coordenadas ecuatoriales}
+
+\section{Día 4: Cálculo del tiempo local sideral}
+
+\section{Día 5: Transformación a coordenadas horizontales}
+
+\section{Implementación de los cálculos en la aplicación móvil}
+\begin{table}[!h]
+  \centering
+  \begin{tabular}{lcl}
+    Ecuación & Número & Clase en la que se usa\\
+    \hline
+    Parámetros orbitales & Tabla \ref{tab:OrbitalParams} & OrbitalParameters\\
+    Días transcurridos & \ref{eq:ElapsedDays} & DayCalculator\\
+    Anomalía eccéntrica & \ref{eq:KeplerNumeric} & AnomaliesCalculator\\
+    Posición del planeta en $O_E$ & (\ref{eq:PlanetX})-(\ref{eq:PlanetZ}) & Anomalies Calculator\\
+    Tiempo Local Sideral & \#\#\#\# & SideralTime\\
+    \hline
+  \end{tabular}
+  \caption{Relación de ecuaciones y código para la aplicación móvil}
+  \label{tab:EqsAndCode}
+\end{table}
 
 \end{document}
