@@ -290,12 +290,31 @@ Como se explicó en la sección \ref{sec:NiwAngles}, el sistema de coordenadas $
            $\sin \omega$ & $ \cos \omega$ & 0 \\
            $0$      & $0$       & 1
          \end{tabular}\right]
-  \left[ \begin{tabular}{c} $p_x$\\$p_y$\\$p_z$\end{tabular}\right]
+       \left[ \begin{tabular}{c} $p_x$\\$p_y$\\$p_z$\end{tabular}\right]
+       \label{eq:Planet2Ecliptic}
 \end{equation}
 donde $N$, $i$ y $\omega$ son  parámetros orbitales (ver sección \ref{sec:NiwAngles}), $(p_X, p_y, p_z)$ es la posición del planeta calculada de acuerdo con (\ref{eq:PlanetX})-(\ref{eq:PlanetZ}) y $(x_E, y_E, z_E)$ es la posición del planeta expresada en coordenadas eclípticas.
 
+Puesto que estas ecuaciones se implementarán en los lenguajes de programación Python y Java, es conveniente recordar que la multiplicación (\ref{eq:Planet2Ecliptic}) se puede realizar por pasos:
+
+\begin{eqnarray*}
+  p_{x1} &=& p_x \cos\omega - p_y\sin\omega\\
+  p_{y1} &=& p_x \sin\omega + p_y\cos\omega\\
+  p_{z1} &=& p_z\\
+\end{eqnarray*}
+\begin{eqnarray*}
+  p_{x2} &=& p_{x1}\\
+  p_{y2} &=& p_{y1} \cos\omega - {p_z1}\sin\omega\\
+  p_{z2} &=& p_{y1} \sin\omega + {p_z1}\cos\omega\\
+\end{eqnarray*}
+\begin{eqnarray*}
+  x_E &=& p_{x2} \cos\omega - {p_y2}\sin\omega\\
+  y_E &=& p_{x2} \sin\omega + {p_y2}\cos\omega\\
+  z_E &=& p_{z2}\\
+\end{eqnarray*}
+
 \subsection{El sistema de coordenadas ecuatoriales}
-El sistema de coordenadas ecuatoriales es el sistema más común para localizar astros vistos desde la Tierra. Este sistema de coordenadas tiene origen en la Tierra y puede usarse en coordenadas rectagulares o esféricas. 
+El sistema de coordenadas eclípticas es un sistema de referencia con XY pararelo al plano de la órbita de la Tierra, sin embargo, es importante recordar que el eje de rotación de la tierra está inclinado con respecto al plano de su órbita. Por este hecho, cuando se localizan astros vistos desde la Tierra se suele utilizar otro sistema de referencia: las coordenadas ecuatoriales. 
 
 \section{Día 4: Cálculo del tiempo local sideral}
 
