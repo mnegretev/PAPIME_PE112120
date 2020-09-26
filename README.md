@@ -16,4 +16,6 @@ Aplicación para Android desarrollada con Android Studio que sirve como material
 ## Video Juego
 Aplicación para android desarrollada en Unity que sirve como material didáctico para temas relacionados con cálculo. La aplicación es un videojuego en el que el usuario debe saltar obstáculos. Los movimientos se calculan a partir de ecuaciones de movimiento rectilíneo y parabólico. La siguiente imagen muestra una captura de pantalla de la aplicación.
 
+<img src="https://github.com/mnegretev/PAPIME_PE112120/blob/master/Media/VideoJuegoMosaico.jpeg" alt="Star Gazer App" width="640"/>
+
 Los códigos fuente de las aplicaciones, así como otros materiales, se encuentran en la carpeta Macroproyectos de este repositorio. 
