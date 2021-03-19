@@ -1,21 +1,38 @@
 # Entregables del proyecto PAPIME PE112120
 
-Este repositorio contiene los avances del proyecto PAPIME112120 "Cómputo móvil y robótica como espacio de aprendizaje de las matemáticas en bachillerato".
-Hasta el momento se han desarrollado las aplicaciones que se listan a continuación:
+Este repositorio contiene los entregables del proyecto PAPIME112120 "Cómputo móvil y robótica como espacio de aprendizaje de las matemáticas en bachillerato". De acuerdo con el informe final enviado a la DGAPA, se generaron los siguientes productos:
 
-### Observación astronómica:
-Aplicación para Android desarrollada con Android Studio que sirve como material didáctico para temas relacionados con geometría analítica. La aplicación muestra con realidad aumentada la posición de los planetas. La siguiente imagen es una captura de pantalla de la app. 
+* Secuencia didáctica que consiste en el desarrollo de una aplicación móvil para observación astronómica.
+* Secuencia didáctica que consiste en el desarrollo de una aplicación móvil para respetar los límites de velocidad en las vialidades primarias de la CDMX.
+* Secuencia didáctica que consiste en la programación de un minirobot móvil para emular un comportamiento de fototaxia.
+* Secuencia didáctica que consiste en el desarrollo de un videojuego para Android. 
+* Manuscrito de artículo donde se reporta el material desarrollado.
 
-<img src="https://github.com/mnegretev/PAPIME_PE112120/blob/master/Media/StarGazer.png" alt="Star Gazer App" width="640"/>
+Cada uno de los entregables está en una carpeta donde se describen más ampliamente sus características. Además de estos productos, se agrega un avance de tesis, resultado colateral del proyecto, que se reportó como producto cancelado. En el reporte enviado a la DGAPA se justifica la cancelación. 
 
-### Radar de velocidad
-Aplicación para Android desarrollada con Android Studio que sirve como material didáctico para temas relacionados con geometría analítica. La aplicación obtiene datos de los límites de velocidad de las principales avenidas de la CdMx, mide la velocidad del conductor usando el GPS y emite una alerta si se rebasa el límite de velocidad. La siguiente imagen es una captura de pantalla de la aplicación. 
+Además de las carpetas que contienen los productos, se agregó una carpeta 'Media' con videos y capturas de pantalla donde se muestra el funcionamiento de los diferentes productos.
 
-<img src="https://github.com/mnegretev/PAPIME_PE112120/blob/master/Media/TestMaps2.png" alt="Star Gazer App" width="300"/>
+A continuación se resumen brevemente los productos contenidos en este repositorio:
 
-## Video Juego
-Aplicación para android desarrollada en Unity que sirve como material didáctico para temas relacionados con cálculo. La aplicación es un videojuego en el que el usuario debe saltar obstáculos. Los movimientos se calculan a partir de ecuaciones de movimiento rectilíneo y parabólico. La siguiente imagen muestra una captura de pantalla de la aplicación.
+### App para observación astronómica:
+Aplicación para Android desarrollada con Android Studio que sirve como material didáctico para temas relacionados con geometría analítica. La aplicación muestra con realidad aumentada la posición de los planetas. La siguiente imagen es una captura de pantalla de la app. En la pantalla se muestran las posiciones del Sol y de Saturno. El código fuente y una descripción más detallada se encuentran en la carpeta correspondiete.
 
-<img src="https://github.com/mnegretev/PAPIME_PE112120/blob/master/Media/VideoJuegoMosaico.jpeg" alt="Star Gazer App" width="640"/>
+<img src="https://github.com/mnegretev/PAPIME_PE112120/blob/master/Media/AppObservacionAstronomica.png" alt="App para observación astronómica" width="640"/>
 
-Los códigos fuente de las aplicaciones, así como otros materiales, se encuentran en la carpeta Macroproyectos de este repositorio. 
+### App para radar de velocidad
+Aplicación para Android desarrollada con Android Studio que sirve como material didáctico para temas relacionados con geometría analítica. La aplicación obtiene datos de los límites de velocidad de las principales avenidas de la CdMx, mide la velocidad del conductor usando el GPS y emite una alerta si se rebasa el límite de velocidad. La siguiente imagen es una captura de pantalla de la aplicación. El código fuente y una descripción más detallada se encuentran en la carpeta correspondiete.
+
+<img src="https://github.com/mnegretev/PAPIME_PE112120/blob/master/Media/RadarDeVelocidad1.png" alt="App para radar de velocidad" width="300"/>
+
+### Videojuego
+Aplicación para android desarrollada en Unity que sirve como material didáctico para temas relacionados con cálculo y geometría analítica. La aplicación es un videojuego en el que el usuario debe mover una pelota en la pantalla a través del movimiento del celular. Los movimientos de la pelota se calculan a partir de ecuaciones de movimiento rectilíneo y parabólico. La siguiente imagen muestra una captura de pantalla de la aplicación. El código fuente y una descripción más detallada se encuentran en la carpeta correspondiete.
+
+<img src="https://github.com/mnegretev/PAPIME_PE112120/blob/master/Media/VideoJuegoMosaico.jpeg" alt="Videojuego para Android" width="640"/> 
+
+### Minirobot móvil
+Hardware desarrollado para emular un comportamiento de fototaxia en un robot móvil. Este prototipo sirve como material didáctico para temas relacionados con funciones reales, ecuaciones de primer grado y proporciones. La siguiente imagen muestra una foto del prototipo desarrollado. Las especificaciones del diseño se encuentran en la carpeta correspondiente y un video mostrando su funcionamiento se encuentra en la carpeta 'Media'. 
+
+<img src="https://github.com/mnegretev/PAPIME_PE112120/blob/master/Media/Robot.png" alt="Prototipo de robot móvil" width="350"/> 
+
+### Manuscrito de artículo
+Este producto se reportó como un producto no terminado. Se espera que las semanas próximas se termine y sea enviado para su revisión a una revista o conferencia relacionada con la enseñanza de las matemáticas. 
